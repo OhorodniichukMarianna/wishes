@@ -1,8 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import "./App.css";
 import { useWishes } from "./hooks/useWishes";
-import { Modal } from "./components/Modal";
 import { ConfirmModal } from "./components/ConfirmModal";
+import { WishCard } from "./components/WishCard";
+import { WishFormModal } from "./components/WishFormModal";
+import { WishDetailsModal } from "./components/WishDetailsModal";
 import type { NewWish, SortBy, SortOrder, Wish } from "./types/wish";
 
 function App() {
@@ -227,145 +229,15 @@ function App() {
           </div>
         </div>
 
-        <Modal
+        <WishFormModal
           isOpen={showModal}
           onClose={handleCloseModal}
-          title={editingWish ? "Update Wish" : "Create New Wish"}
-        >
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3 sm:mb-4">
-              <label
-                htmlFor="imageUrl"
-                className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2"
-              >
-                Image URL *
-              </label>
-              <input
-                type="url"
-                id="imageUrl"
-                value={formData.imageUrl}
-                onChange={(e) =>
-                  setFormData({ ...formData, imageUrl: e.target.value })
-                }
-                required
-                className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                placeholder="https://example.com/image.jpg"
-              />
-            </div>
-
-            <div className="mb-3 sm:mb-4">
-              <label
-                htmlFor="title"
-                className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2"
-              >
-                Title *
-              </label>
-              <input
-                type="text"
-                id="title"
-                value={formData.title}
-                onChange={(e) =>
-                  setFormData({ ...formData, title: e.target.value })
-                }
-                required
-                className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                placeholder="Enter your wish title"
-              />
-            </div>
-
-            <div className="mb-3 sm:mb-4">
-              <label
-                htmlFor="description"
-                className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2"
-              >
-                Description *
-              </label>
-              <textarea
-                id="description"
-                value={formData.description}
-                onChange={(e) =>
-                  setFormData({ ...formData, description: e.target.value })
-                }
-                required
-                rows={3}
-                className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                placeholder="Describe your wish"
-              />
-            </div>
-
-            <div className="mb-3 sm:mb-4">
-              <label
-                htmlFor="price"
-                className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2"
-              >
-                Price ($) *
-              </label>
-              <input
-                type="number"
-                id="price"
-                value={formData.price}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    price: parseFloat(e.target.value) || 0,
-                  })
-                }
-                required
-                min="0"
-                step="0.01"
-                className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                placeholder="0.00"
-              />
-            </div>
-
-            <div className="mb-4 sm:mb-6">
-              <label
-                htmlFor="priority"
-                className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2"
-              >
-                Priority
-              </label>
-              <select
-                id="priority"
-                value={formData.priority}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    priority: e.target.value as "low" | "medium" | "high",
-                  })
-                }
-                className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              >
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
-            </div>
-
-            <div className="flex gap-2 sm:gap-3">
-              <button
-                type="button"
-                onClick={handleCloseModal}
-                className="flex-1 bg-gray-400 hover:bg-gray-500 text-gray-900 font-bold py-2 sm:py-3 px-2 sm:px-4 rounded-lg transition-all duration-200 hover:shadow-md text-sm sm:text-base"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={loading}
-                className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-gray-900 font-bold py-2 sm:py-3 px-2 sm:px-4 rounded-lg transition-all duration-200 disabled:opacity-50 hover:shadow-lg text-sm sm:text-base"
-              >
-                {loading
-                  ? editingWish
-                    ? "Updating..."
-                    : "Creating..."
-                  : editingWish
-                  ? "Update"
-                  : "Create"}
-              </button>
-            </div>
-          </form>
-        </Modal>
+          onSubmit={handleSubmit}
+          formData={formData}
+          setFormData={setFormData}
+          editingWish={editingWish}
+          loading={loading}
+        />
 
         <ConfirmModal
           isOpen={showConfirmDelete}
@@ -380,97 +252,11 @@ function App() {
           cancelText="No, Keep it"
         />
 
-        {selectedWish && (
-          <Modal
-            isOpen={!!selectedWish}
-            onClose={() => setSelectedWish(null)}
-            title="Wish Details"
-          >
-            <div className="space-y-3 sm:space-y-4">
-              <div>
-                <img
-                  src={selectedWish.imageUrl}
-                  alt={selectedWish.title}
-                  className="w-full h-48 sm:h-64 object-cover rounded-lg"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src =
-                      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=300&fit=crop";
-                  }}
-                />
-              </div>
-
-              <div>
-                <h3 className="text-xs sm:text-sm font-medium text-gray-500 mb-1">
-                  Title
-                </h3>
-                <p className="text-base sm:text-lg font-semibold text-gray-800">
-                  {selectedWish.title}
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-xs sm:text-sm font-medium text-gray-500 mb-1">
-                  Description
-                </h3>
-                <p className="text-sm sm:text-base text-gray-700">
-                  {selectedWish.description}
-                </p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                <div>
-                  <h3 className="text-xs sm:text-sm font-medium text-gray-500 mb-1">
-                    Price
-                  </h3>
-                  <p className="text-lg sm:text-xl font-bold text-purple-600">
-                    ${selectedWish.price.toFixed(2)}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-xs sm:text-sm font-medium text-gray-500 mb-1">
-                    Priority
-                  </h3>
-                  <span
-                    className={`inline-block px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold rounded-full border ${getPriorityColor(
-                      selectedWish.priority
-                    )}`}
-                  >
-                    {selectedWish.priority.toUpperCase()}
-                  </span>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-xs sm:text-sm font-medium text-gray-500 mb-1">
-                  Status
-                </h3>
-                <p
-                  className={`text-sm sm:text-base font-semibold ${
-                    selectedWish.completed ? "text-green-600" : "text-gray-600"
-                  }`}
-                >
-                  {selectedWish.completed ? "✓ Completed" : "○ Pending"}
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-xs sm:text-sm font-medium text-gray-500 mb-1">
-                  Created At
-                </h3>
-                <p className="text-sm sm:text-base text-gray-700">
-                  {new Date(selectedWish.createdAt).toLocaleString()}
-                </p>
-              </div>
-
-              <button
-                onClick={() => setSelectedWish(null)}
-                className="w-full bg-purple-600 hover:bg-purple-700 text-gray-900 font-bold py-2 sm:py-3 px-4 rounded-lg transition-all duration-200 text-sm sm:text-base"
-              >
-                Close
-              </button>
-            </div>
-          </Modal>
-        )}
+        <WishDetailsModal
+          wish={selectedWish}
+          onClose={() => setSelectedWish(null)}
+          getPriorityColor={getPriorityColor}
+        />
 
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
@@ -490,7 +276,7 @@ function App() {
 
         {wishes && (
           <>
-            <div className="grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4">
               {wishes.length === 0 ? (
                 <div className="col-span-full bg-white rounded-lg shadow-md p-6 sm:p-8 text-center">
                   <p className="text-gray-500 text-sm sm:text-lg">
@@ -499,85 +285,14 @@ function App() {
                 </div>
               ) : (
                 wishes.map((wish: Wish) => (
-                  <div
+                  <WishCard
                     key={wish.id}
-                    className={`bg-white rounded-lg shadow-md overflow-hidden transition-all duration-200 hover:shadow-xl ${
-                      wish.completed ? "opacity-75" : ""
-                    }`}
-                  >
-                    <div className="relative h-40 sm:h-48 overflow-hidden bg-gray-200">
-                      <img
-                        src={wish.imageUrl}
-                        alt={wish.title}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src =
-                            "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=300&fit=crop";
-                        }}
-                      />
-                      <span
-                        className={`absolute top-2 right-2 px-2 py-0.5 text-[10px] sm:text-xs font-semibold rounded-full border ${getPriorityColor(
-                          wish.priority
-                        )}`}
-                      >
-                        {wish.priority.toUpperCase()}
-                      </span>
-                    </div>
-
-                    <div className="p-3 sm:p-4">
-                      <h3
-                        className={`text-base sm:text-xl font-bold mb-1 sm:mb-2 line-clamp-2 ${
-                          wish.completed
-                            ? "line-through text-gray-500"
-                            : "text-gray-800"
-                        }`}
-                      >
-                        {wish.title}
-                      </h3>
-                      <p
-                        className={`text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3 line-clamp-2 ${
-                          wish.completed ? "line-through" : ""
-                        }`}
-                      >
-                        {wish.description}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-lg sm:text-xl font-bold text-purple-600">
-                          ${wish.price.toFixed(2)}
-                        </span>
-                        <span className="text-[10px] sm:text-xs text-gray-400">
-                          {new Date(wish.createdAt).toLocaleDateString()}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="px-2 sm:px-3 py-2 sm:py-3 bg-gray-50 border-t border-gray-200 flex gap-1 sm:gap-2">
-                      <button
-                        onClick={() => handleDeleteClick(wish.id)}
-                        className="flex-1 bg-red-500 hover:bg-red-600 text-gray-900 font-bold py-1.5 sm:py-2 px-1 sm:px-2 rounded text-xs sm:text-sm transition-all duration-200 hover:shadow-md"
-                        title="Delete"
-                      >
-                        <span className="hidden sm:inline">🗑️ Delete</span>
-                        <span className="sm:hidden">🗑️</span>
-                      </button>
-                      <button
-                        onClick={() => handleEdit(wish)}
-                        className="flex-1 bg-blue-500 hover:bg-blue-600 text-gray-900 font-bold py-1.5 sm:py-2 px-1 sm:px-2 rounded text-xs sm:text-sm transition-all duration-200 hover:shadow-md"
-                        title="Update"
-                      >
-                        <span className="hidden sm:inline">✏️ Update</span>
-                        <span className="sm:hidden">✏️</span>
-                      </button>
-                      <button
-                        onClick={() => setSelectedWish(wish)}
-                        className="flex-1 bg-purple-500 hover:bg-purple-600 text-gray-900 font-bold py-1.5 sm:py-2 px-1 sm:px-2 rounded text-xs sm:text-sm transition-all duration-200 hover:shadow-md"
-                        title="Details"
-                      >
-                        <span className="hidden sm:inline">📄 Details</span>
-                        <span className="sm:hidden">📄</span>
-                      </button>
-                    </div>
-                  </div>
+                    wish={wish}
+                    onDelete={handleDeleteClick}
+                    onEdit={handleEdit}
+                    onViewDetails={setSelectedWish}
+                    getPriorityColor={getPriorityColor}
+                  />
                 ))
               )}
             </div>

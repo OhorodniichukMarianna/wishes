@@ -3,7 +3,7 @@ import { useWishesContext } from './useWishesContext';
 import { useSnackbar } from '../context/SnackbarContext';
 import type { Wish, NewWish, SortBy, SortOrder } from '../types/wish';
 
-const API_BASE_URL = 'http://localhost:3001';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
 export function useWishes() {
   const { wishes, loading, error, hasMore, currentPage, setWishes, setLoading, setError, setHasMore, setCurrentPage } = useWishesContext();

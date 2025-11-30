@@ -140,14 +140,14 @@ export const WishFormModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 bg-gray-400 hover:bg-gray-500 text-gray-900 font-bold py-2 sm:py-3 px-2 sm:px-4 rounded-lg transition-all duration-200 hover:shadow-md text-sm sm:text-base"
+            className="flex-1 bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 sm:py-3 px-2 sm:px-4 rounded-lg transition-all duration-200 hover:shadow-md text-sm sm:text-base"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-gray-900 font-bold py-2 sm:py-3 px-2 sm:px-4 rounded-lg transition-all duration-200 disabled:opacity-50 hover:shadow-lg text-sm sm:text-base"
+            className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-2 sm:py-3 px-2 sm:px-4 rounded-lg transition-all duration-200 disabled:opacity-50 hover:shadow-lg text-sm sm:text-base"
           >
             {loading
               ? editingWish

@@ -3,3 +3,14 @@
 * {
   box-sizing: border-box;
 }
+
+/* Fix Safari button text color issues */
+button {
+  -webkit-font-smoothing: antialiased;
+  color: inherit;
+}
+
+/* Ensure button text colors are respected in Safari */
+button[class*="text-white"] {
+  color: white !important;
+}

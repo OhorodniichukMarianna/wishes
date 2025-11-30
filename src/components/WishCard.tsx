@@ -70,7 +70,7 @@ export const WishCard = ({
       <div className="px-2 sm:px-3 py-2 sm:py-3 bg-gray-50 border-t border-gray-200 flex gap-1 sm:gap-2">
         <button
           onClick={() => onDelete(wish.id)}
-          className="flex-1 bg-red-500 hover:bg-red-600 text-gray-900 font-bold py-1.5 sm:py-2 px-1 sm:px-2 rounded text-lg transition-all duration-200 hover:shadow-md"
+          className="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-1.5 sm:py-2 px-1 sm:px-2 rounded text-lg transition-all duration-200 hover:shadow-md"
           title="Delete"
           aria-label="Delete wish"
         >
@@ -78,7 +78,7 @@ export const WishCard = ({
         </button>
         <button
           onClick={() => onEdit(wish)}
-          className="flex-1 bg-blue-500 hover:bg-blue-600 text-gray-900 font-bold py-1.5 sm:py-2 px-1 sm:px-2 rounded text-lg transition-all duration-200 hover:shadow-md"
+          className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-1.5 sm:py-2 px-1 sm:px-2 rounded text-lg transition-all duration-200 hover:shadow-md"
           title="Update"
           aria-label="Update wish"
         >
@@ -86,7 +86,7 @@ export const WishCard = ({
         </button>
         <button
           onClick={() => onViewDetails(wish)}
-          className="flex-1 bg-purple-500 hover:bg-purple-600 text-gray-900 font-bold py-1.5 sm:py-2 px-1 sm:px-2 rounded text-lg transition-all duration-200 hover:shadow-md"
+          className="flex-1 bg-purple-500 hover:bg-purple-600 text-white font-bold py-1.5 sm:py-2 px-1 sm:px-2 rounded text-lg transition-all duration-200 hover:shadow-md"
           title="Details"
           aria-label="View wish details"
         >

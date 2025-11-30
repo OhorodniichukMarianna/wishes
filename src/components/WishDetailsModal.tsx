@@ -94,7 +94,7 @@ export const WishDetailsModal = ({
 
         <button
           onClick={onClose}
-          className="w-full bg-purple-600 hover:bg-purple-700 text-gray-900 font-bold py-2 sm:py-3 px-4 rounded-lg transition-all duration-200 text-sm sm:text-base"
+          className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 sm:py-3 px-4 rounded-lg transition-all duration-200 text-sm sm:text-base"
         >
           Close
         </button>
